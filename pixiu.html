@@ -1,17 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <!-- 关键：移动端适配核心配置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>貔貅视频</title>
+    <style>
+        * {margin:0; padding:0;}
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+        /* 视频适配手机全屏，兼容各种屏幕比例 */
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 避免视频拉伸变形 */
+        }
+        /* 手机端强制显示播放控件（方便手动触发） */
+        @media (max-width: 768px) {
+            video {
+                controls: true;
+            }
+        }
+    </style>
 </head>
-<body style="margin:0; background:black;">
-  <video 
-    autoplay 
-    loop 
-    muted 
-    playsinline
-    style="width:100vw; height:100vh; object-fit:cover;"
-  >
-    <source src="pixiu.mp4" type="video/mp4">
-  </video>
+<body>
+    <!-- 手机端播放核心：增加预加载 + 兼容所有移动端播放规则 -->
+    <video 
+        id="video"
+        preload="auto"
+        loop 
+        muted 
+        playsinline 
+        webkit-playsinline="true" 
+        x5-playsinline="true"
+        style="width:100%;height:100%;"
+    >
+        <source src="pixiu.mp4" type="video/mp4">
+    </video>
+
+    <script>
+        // 解决手机端自动播放限制：触摸屏幕就播放
+        const video = document.getElementById('video');
+        // 手机端需要用户交互才能播放，加触摸触发
+        document.addEventListener('touchstart', function() {
+            video.play();
+        }, { once: true }); // 只触发一次，避免重复执行
+
+        // 电脑端自动播放
+        if (!/Mobile|Android|iPhone/i.test(navigator.userAgent)) {
+            video.play();
+        }
+    </script>
 </body>
 </html>
