@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#000;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
+    video{width:100%;height:100%;object-fit:cover}
+</style>
+</head>
+<body>
+<video id="video" autoplay muted playsinline></video>
+
+<script>
+const PET_ID       = "pixiu";
+const VIDEO_SELF    = "https://raw.githubusercontent.com/semi-transparent-vido/main/pixiu.mp4";
+const VIDEO_COMBO   = "";
+const VIDEO_THEATER = "";
+const VIDEO_END     = "";
+
+let list = JSON.parse(localStorage.getItem("my_pets") || "[]");
+if (!list.includes(PET_ID)) {
+    list.push(PET_ID);
+    localStorage.setItem("my_pets", JSON.stringify(list));
+}
+
+let playVideo = VIDEO_SELF;
+if (list.length >= 6) playVideo = VIDEO_END;
+else if (list.length >= 3) playVideo = VIDEO_THEATER;
+else if (list.length >= 2) playVideo = VIDEO_COMBO;
+
+document.getElementById("video").src = playVideo;
+</script>
+</body>
+</html>
